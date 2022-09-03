@@ -51,8 +51,3 @@ def start_server(ip = '127.0.0.1', port = 9999):
         sock, addr = s.accept()
         thread_pool.add_work(tcp_link, *(sock, addr))
 
-
-if __name__ == '__main__':
-    start_server()
-    pass
-
