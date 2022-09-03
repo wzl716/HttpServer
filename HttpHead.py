@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import os
 import xml.dom.minidom
+from config import *
 
 
 # 返回码
@@ -149,9 +150,9 @@ class HttpRequest(object):
                 self.response_line = ErrorCode.NOT_FOUND
                 self.response_head['Content-Type'] = 'text/html'
                 self.response_body = f.read()
-
-    def processSession(self):
-        self.session = Session()
+    def handleCookie(self):
+        if not useCookie:
+            return
         # 没有提交cookie，创建cookie
         if self.Cookie is None:
             self.Cookie = self.generateCookie()
@@ -168,7 +169,10 @@ class HttpRequest(object):
                 self.Cookie = self.generateCookie()
                 cookie_file = self.CookieDir+self.Cookie
                 self.session.cook_file = cookie_file
-                self.session.write2XML()                
+                self.session.write2XML()
+    def processSession(self):
+        self.session = Session()
+        handleCookie()       
         return self.session
 
 
